@@ -37,6 +37,15 @@ func TestAssignment(t *testing.T) {
 				return &v
 			},
 		},
+		{
+			Name:  `lestrrat-go/jwx#389`,
+			Error: true,
+			Value: 
+			Destination: func() interface{} {
+				var s struct{}
+				return &s
+			},
+		},
 	}
 
 	for _, tc := range testcases {
