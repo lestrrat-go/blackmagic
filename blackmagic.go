@@ -15,14 +15,13 @@ func AssignIfCompatible(dst, src interface{}) error {
 
 	// t can be a pointer or a slice, and the code will slightly change
 	// depending on this
+	var isPtr bool
 	var isSlice bool
 	switch result.Kind() {
 	case reflect.Ptr:
-		// no op
+		isPtr = true
 	case reflect.Slice:
 		isSlice = true
-	default:
-		return fmt.Errorf("argument t to AssignIfCompatible must be a pointer or a slice: %T", src)
 	}
 
 	rv := reflect.ValueOf(dst)
@@ -37,7 +36,7 @@ func AssignIfCompatible(dst, src interface{}) error {
 	default:
 		// If it's a pointer to the struct we're looking for, we need to set
 		// the de-referenced struct
-		if !isSlice {
+		if !isSlice && isPtr {
 			result = result.Elem()
 		}
 	}

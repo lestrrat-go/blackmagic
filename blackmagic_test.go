@@ -16,7 +16,7 @@ func TestAssignment(t *testing.T) {
 	}{
 		{
 			Name:  `empty struct`,
-			Error: true,
+			Error: false,
 			Value: struct{}{},
 			Destination: func() interface{} {
 				var v interface{}
