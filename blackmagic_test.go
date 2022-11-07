@@ -5,6 +5,7 @@ import (
 
 	"github.com/lestrrat-go/blackmagic"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestAssignment(t *testing.T) {
@@ -58,4 +59,16 @@ func TestAssignment(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestAssignOptionalField(t *testing.T) {
+	var f struct {
+		Foo *string
+		Bar *int
+	}
+
+	require.NoError(t, blackmagic.AssignOptionalField(&f.Foo, "Hello"), `blackmagic.AssignOptionalField should succeed`)
+	require.Equal(t, *(f.Foo), "Hello")
+	require.NoError(t, blackmagic.AssignOptionalField(&f.Bar, 1), `blackmagic.AssignOptionalField should succeed`)
+	require.Equal(t, *(f.Bar), 1)
 }
