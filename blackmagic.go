@@ -25,7 +25,7 @@ import (
 func AssignOptionalField(dst, src interface{}) error {
 	dstRV := reflect.ValueOf(dst)
 	srcRV := reflect.ValueOf(src)
-	if dstRV.Kind() != reflect.Pointer || dstRV.Elem().Kind() != reflect.Pointer {
+	if dstRV.Kind() != reflect.Ptr || dstRV.Elem().Kind() != reflect.Ptr {
 		return fmt.Errorf(`dst must be a pointer to a field that is turn a pointer of src (%T)`, src)
 	}
 
