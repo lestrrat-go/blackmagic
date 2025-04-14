@@ -1,6 +1,10 @@
 module github.com/lestrrat-go/blackmagic
 
+<<<<<<< HEAD
 go 1.23
+=======
+go 1.23.0
+>>>>>>> 41c2fcd (Check for invalid source values)
 
 require github.com/stretchr/testify v1.7.1
 
