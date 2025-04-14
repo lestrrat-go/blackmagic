@@ -32,7 +32,7 @@ func AssignOptionalField(dst, src interface{}) error {
 	if !dstRV.Elem().CanSet() {
 		return fmt.Errorf(`dst (%T) is not assignable`, dstRV.Elem().Interface())
 	}
-	if !reflect.PtrTo(srcRV.Type()).AssignableTo(dstRV.Elem().Type()) {
+	if !reflect.PointerTo(srcRV.Type()).AssignableTo(dstRV.Elem().Type()) {
 		return fmt.Errorf(`cannot assign src (%T) to dst (%T)`, src, dst)
 	}
 
