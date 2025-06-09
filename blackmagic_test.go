@@ -10,6 +10,25 @@ import (
 )
 
 func TestAssignment(t *testing.T) {
+	const val = 42
+	t.Run("to interface{}", func(t *testing.T) {
+		var dst interface{}
+		require.NoError(t, blackmagic.AssignIfCompatible(&dst, val), `blackmagic.AssignIfCompatible should succeed`)
+		require.Equal(t, val, dst, `dst should be equal to src`)
+	})
+	t.Run("to int", func(t *testing.T) {
+		var dst int
+		require.NoError(t, blackmagic.AssignIfCompatible(&dst, val), `blackmagic.AssignIfCompatible should succeed`)
+		require.Equal(t, val, dst, `dst should be equal to src`)
+	})
+	t.Run("to string (should fail)", func(t *testing.T) {
+		var dst string
+		err := blackmagic.AssignIfCompatible(&dst, val)
+		require.Error(t, err, `blackmagic.AssignIfCompatible should fail`)
+	})
+}
+
+func TestAssignmentEdgeCases(t *testing.T) {
 	testcases := []struct {
 		Name        string
 		Error       bool
@@ -90,4 +109,14 @@ func TestAssignOptionalField(t *testing.T) {
 	require.Equal(t, *(f.Foo), "Hello")
 	require.NoError(t, blackmagic.AssignOptionalField(&f.Bar, 1), `blackmagic.AssignOptionalField should succeed`)
 	require.Equal(t, *(f.Bar), 1)
+}
+
+func TestAssignPointer(t *testing.T) {
+	var src int
+	var dst *int
+
+	require.NoError(t, blackmagic.AssignIfCompatible(&dst, &src), `blackmagic.AssignIfCompatible should succeed`)
+
+	src = 42
+	require.Equal(t, 42, *dst, `dst should be updated to point to the value of src`)
 }
